@@ -1,0 +1,15 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="lipin_spring_aop:Web exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/lipin_spring_aop_Web_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="lipin_spring_aop/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="lipin_spring_aop" />
+          <element id="module-output" name="lipin_spring_ioc_anno" />
+        </element>
+      </element>
+      <element id="javaee-facet-resources" facet="lipin_spring_ioc_anno/web/Web" />
+    </root>
+  </artifact>
+</component>

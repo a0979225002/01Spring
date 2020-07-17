@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation=
+               "http://www.springframework.org/schema/beans
+                http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<!--   使用  scope="prototype" 呼叫多個該java文件,將會建立多個 userDao-->
+<!--   使用  scope="singleton" 呼叫多個該java文件,將都只使用同一個 userDao-->
+
+        <!--   無參構造寫法-->
+<!--    <bean id="userDao" class="com.lipin.dao.impl.UserDaoImpl"></bean>-->
+
+        <!--   工廠靜態方法實例化寫法-->
+<!--   因為是靜態類 static 所以能直接呼叫該個類裡的的getUserDao()方法-->
+<!--     <bean id="userDao" class="com.lipin.factory.StaticFactory" factory-method="getUserDao"></bean>-->
+
+        <!--   工廠實例方法實例化寫法-->
+<!--   此串等於 DynamicFactory factroy = new DynamicFactory();-->
+<!--        <bean id="factory" class="com.lipin.factory.DynamicFactory"></bean>-->
+<!--    此串等於 factroy.getUserDao();-->
+<!--        <bean id="userDao" factory-bean="factory" factory-method="getUserDao"></bean>-->
+
+<!--    <bean id="userDao" class="com.lipin.dao.impl.UserDaoImpl" ></bean>-->
+
+<!--    參數方法注入-->
+    <bean id="userService" class="com.lipin.service.impl.UserServiceImpl">
+        <constructor-arg name="userDao" ref="userDao"></constructor-arg>
+    </bean>
+
+<!--    普通方式將值賦予該個類-->
+<!--    <bean id="userDao" class="com.lipin.dao.impl.UserDaoImpl">
+        <property name="username" value="蕭立品"/>
+        <property name="age" value="27"/>
+    </bean>-->
+
+<!--    集合方式注入-->
+    <bean id="userDao" class="com.lipin.dao.impl.UserDaoImpl">
+        <property name="strList">
+            <list>
+                <value>aaa</value>
+                <value>bbb</value>
+                <value>ccc</value>
+            </list>
+        </property>
+
+        <property name="userMap">
+            <map>
+               <entry key="u1" value-ref="user1"></entry>
+               <entry key="u2" value-ref="user2"></entry>
+            </map>
+        </property>
+
+        <property name="properties">
+            <props>
+                <prop key="p1">ppp1</prop>
+                <prop key="p2">ppp2</prop>
+                <prop key="p3">ppp3</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="user1" class="com.lipin.domain.User" >
+        <property name="name" value="蕭立品"/>
+        <property name="addr" value="台中"/>
+    </bean>
+    <bean id="user2" class="com.lipin.domain.User">
+        <property name="name" value="lipin"/>
+        <property name="addr" value="台北"/>
+    </bean>
+
+    <import resource="applicationContext-user.xml"/>
+    <import resource="applicationContext-product.xml"/>
+</beans>
