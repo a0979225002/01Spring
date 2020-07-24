@@ -12,9 +12,9 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="8">
-      <module name="lipin_spring_aop" target="8" />
-      <module name="lipin_spring_ioc" target="8" />
-      <module name="lipin_spring_ioc_anno" target="8" />
+      <module name="lipin_spring_aop" target="1.5" />
+      <module name="lipin_spring_ioc" target="1.8" />
+      <module name="lipin_spring_ioc_anno" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
