@@ -4,7 +4,10 @@ import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.pool.DruidPooledConnection;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,7 +17,7 @@ public class DataSourceTest {
 
     @Test
     //測試手動創建c3p0數據庫
-    public void test1() throws Exception{
+    public void test01() throws Exception{
         ComboPooledDataSource dataSource = new ComboPooledDataSource();
         dataSource.setDriverClass("com.mysql.cj.jdbc.Driver");
         dataSource.setJdbcUrl("jdbc:mysql://localhost:8889/iii");
@@ -64,6 +67,7 @@ public class DataSourceTest {
         String username = rb.getString("jdbc.username");
         String password = rb.getString("jdbc.password");
 
+        //連接數據庫
         ComboPooledDataSource dataSource = new ComboPooledDataSource();
         dataSource.setDriverClass(driver);
         dataSource.setJdbcUrl(url);
@@ -82,7 +86,24 @@ public class DataSourceTest {
 
         connection.close();
 
+    }
+    @Test
+    //使用Spring配置文件產生數據連接
+    public void test04()throws Exception{
+        ApplicationContext applicationContext =
+                new ClassPathXmlApplicationContext("ApplicationContext.xml");
+        DataSource dataSource = (DataSource) applicationContext.getBean("dataSource");
+        Connection connection = dataSource.getConnection();
 
+        System.out.println(connection);//測試是否有連上
 
+        String sql = "SELECT * FROM just";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        while (resultSet.next()){
+            System.out.println(resultSet.getString("account"));
+        }
+        connection.close();
     }
 }
